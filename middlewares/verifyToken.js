@@ -25,21 +25,17 @@ const verifyToken = (req, res, next) => {
     token,
     PUBLIC_KEY,
     {
+      clockTimestamp: Date.now(),
       algorithms: ['RS256'],
     },
     (err, decoded) => {
       if (err) {
         return res.status(401).json({
           success: false,
-          message: 'Error. Bad token',
+          message: err.message,
         });
       }
       const { iat, exp, ...user } = decoded;
-
-      // Check the expiration of the token.
-      if (exp <= Date.now()) {
-        return res.status(401).end('Token has expired');
-      }
 
       // If the token is valid
       req.user = user;
