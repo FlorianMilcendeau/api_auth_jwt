@@ -17,7 +17,7 @@ router.post('/signIn', verifyBodySingIn, async (req, res) => {
 
   // If there are any errors
   if (!errors.isEmpty()) {
-    res.status(422).json({ errors: errors.array() });
+    return res.status(422).json({ errors: errors.array() });
   }
 
   const { password, email } = req.body;
