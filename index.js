@@ -26,3 +26,5 @@ app.listen(PORT, (err) => {
     console.log(`Express server listening on ${PORT}`);
   }
 });
+
+module.exports = app;
