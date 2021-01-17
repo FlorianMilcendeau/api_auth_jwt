@@ -48,7 +48,7 @@ router.post('/signIn', verifyBodySingIn, async (req, res) => {
     }
 
     // Generate and sign jwt.
-    const { token, expiresIn } = await generateToken(user);
+    const { token, expiresIn } = generateToken(user);
 
     // Connect successfully.
     return res.status(200).json({
@@ -114,7 +114,7 @@ router.post('/signUp', verifyBodySingUp, async (req, res) => {
     };
 
     // Generate and sign jwt.
-    const { token, expiresIn } = await generateToken(currentUser);
+    const { token, expiresIn } = generateToken(currentUser);
 
     // User created successfully.
     return res.status(201).json({
