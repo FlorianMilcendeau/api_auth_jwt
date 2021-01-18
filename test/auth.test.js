@@ -9,7 +9,7 @@ describe('Route authentication', () => {
       .send({})
       .expect(422)
       .expect('Content-Type', /json/)
-      .then((response) => {
+      .then((res) => {
         const expected = {
           errors: [
             {
@@ -24,7 +24,24 @@ describe('Route authentication', () => {
             },
           ],
         };
-        expect(response.body).toEqual(expected);
+        expect(res.body).toEqual(expected);
+        done();
+      })
+      .catch(done);
+  });
+
+  it('POST /api/auth/signUp - ERROR (No account)', (done) => {
+    const user = { email: 'john@test.com', password: 'johnDoe_jwt' };
+
+    request(app)
+      .post('/api/auth/signIn')
+      .send(user)
+      .expect(401)
+      .expect('Content-Type', /json/)
+      .then((res) => {
+        const expected = { success: false, message: 'Account does not exist' };
+
+        expect(res.body).toEqual(expected);
         done();
       });
   });
