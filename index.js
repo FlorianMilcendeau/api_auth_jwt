@@ -19,12 +19,10 @@ app.get('/api/test', verifyToken, (req, res) => {
   res.status(200).json(req.user);
 });
 
-app.listen(PORT, (err) => {
+module.exports = app.listen(PORT, (err) => {
   if (err) {
     console.error(err);
   } else {
     console.log(`Express server listening on ${PORT}`);
   }
 });
-
-module.exports = app;
