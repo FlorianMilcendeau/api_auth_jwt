@@ -7,7 +7,7 @@
     "start": "node -r dotenv/config index",
     "start:dev": "nodemon -r dotenv/config index.js",
     "lint": "./node_modules/.bin/eslint --ext .js",
-    "test": "DB_NAME=meethalfway_test jest --detectOpenHandles",
+    "test": "DB_NAME=meethalfway_test jest",
     "test:watch": "DB_NAME=meethalfway_test jest --watchAll"
   },
   "keywords": [],
