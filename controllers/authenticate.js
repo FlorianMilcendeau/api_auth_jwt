@@ -60,6 +60,8 @@ router.post('/signIn', verifyBodySingIn, async (req, res) => {
       },
     });
   } catch (error) {
+    console.error(error);
+
     return res.status(500).json({
       success: false,
       message: error.sqlMessage,
@@ -126,6 +128,8 @@ router.post('/signUp', verifyBodySingUp, async (req, res) => {
       },
     });
   } catch (error) {
+    console.error(error);
+
     return res.status(500).json({
       success: false,
       message: error.sqlMessage,
