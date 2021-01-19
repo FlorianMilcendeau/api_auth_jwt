@@ -1,7 +1,7 @@
 const CrudDao = require('./CrudDao');
 
 class User extends CrudDao {
-  static table = 'user';
+  static table = 'initiator';
 }
 
 module.exports = User;

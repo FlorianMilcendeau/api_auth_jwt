@@ -108,12 +108,9 @@ router.post('/signUp', verifyBodySingUp, async (req, res) => {
     }
 
     // I get id of user created.
-    const { insertId } = result;
+    const { insertId: id } = result;
 
-    const currentUser = {
-      id: insertId,
-      ...userInfo,
-    };
+    const { password: pwd, ...currentUser } = await User.findOne({ id });
 
     // Generate and sign jwt.
     const { token, expiresIn } = generateToken(currentUser);
