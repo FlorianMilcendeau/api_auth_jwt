@@ -22,7 +22,7 @@ describe('Route authentication', () => {
         const hash = await generatePassword('HelloWorld');
 
         await User.create({
-          firstname: 'Hello',
+          name: 'Hello',
           email: 'Hello@World.com',
           password: hash,
         });
@@ -54,7 +54,7 @@ describe('Route authentication', () => {
   /** Account already exist. */
   it('POST /api/auth/signUp - ERROR (Account already exist)', (done) => {
     const user = {
-      firstname: 'Hello',
+      name: 'Hello',
       email: 'Hello@World.com',
       password: 'JohnDoe_jwt',
     };
@@ -79,7 +79,7 @@ describe('Route authentication', () => {
   /** User has been created. */
   it('POST /api/auth/signUp - OK (User has been created)', (done) => {
     const user = {
-      firstname: 'Foo',
+      name: 'Foo',
       email: 'Foo@Bar.com',
       password: 'FooBar_jwt',
     };
@@ -94,7 +94,7 @@ describe('Route authentication', () => {
           success: true,
           user: {
             id: expect.any(Number),
-            firstname: 'Foo',
+            name: 'Foo',
             email: 'Foo@Bar.com',
             city: expect.toBeStringOrNull(),
           },
