@@ -1,6 +1,19 @@
-# Node.js / Express template authentication Json Web Token
+# Node.js / Express authentication Json Web Token
 
-This template provides:
+## Table of Contents
+
+- [Overview](#overview)
+  - [Built With](#built-with)
+- [Architecture](#Architecture)
+- [Usage](#Usage)
+  - [Authentication](#Authentication)
+    - [Register](#Register)
+    - [Login](#Login)
+- [Contact](#contact)
+
+# Architecture
+
+This api provides:
 
 - Folders:
   - `config`:
@@ -21,10 +34,79 @@ This template provides:
   - DB_PASSWORD
 - ESLint with Airbnb rules
 - Prettier
-- Automatic linting on commit: **you can't commit if you have ESLint errors**
 
-## Usage
+# Usage
 
-1. Install dependencies: `npm install` (alternatively, you can use Yarn or PNPM)
-2. `.env` adjust it to your needs
-3. Start the app on your local machine: `npm run start:dev`
+<ol>
+  <li>Install dependencies: `npm install` (alternatively, you can use Yarn or NPM)</li>
+  <li>Start the app on your local machine: `npm run start:dev</li>
+</ol>
+
+## Authentication
+
+### Register
+
+**POST** request to: `http://localhost:8000/api/auth/signUp`
+
+```
+{
+    name: String,
+    email: String,
+    password: String,
+    city: String
+}
+```
+
+`firtname`, `email`, `password` are **REQUIRED**  
+`city` is **OPTIONAL**
+
+**RESPONSE**
+
+Code server **201**
+
+```
+{
+    success: true,
+    user: {
+        id: Number,
+        name: String,
+        city: String
+    }
+    token: {
+        jwt: String,
+        expiresIn: Number|String
+    }
+}
+```
+
+### Login
+
+**POST** request to: `http://localhost:8000/api/auth/signIn`
+
+```
+{
+    email: String,
+    password: String,
+}
+```
+
+`email`, `password` are **REQUIRED**`
+
+**RESPONSE**
+
+Code server **200**
+
+```
+{
+    success: true,
+    user: {
+        id: Number,
+        firstname: String,
+        city: String
+    }
+    token: {
+        jwt: String,
+        expiresIn: Number|String
+    }
+}
+```
