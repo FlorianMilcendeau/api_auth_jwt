@@ -12,12 +12,12 @@ const PRIV_KEY = fs.readFileSync(pathToPrivKey, 'utf-8');
  * @returns {{token: string, expiresIn: number}} Json Web Token and his expiration.
  */
 const generateToken = (user) => {
-  const { id, firstname, email } = user;
+  const { id, name, email } = user;
 
   // Init payload
   const payload = {
     sub: id,
-    firstname,
+    name,
     email,
     iat: Date.now(),
   };

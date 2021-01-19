@@ -22,7 +22,7 @@ describe('Route authentication', () => {
         const hash = await generatePassword('JohnDoe_jwt');
 
         await User.create({
-          firstname: 'John',
+          name: 'John',
           email: 'John@Doe.com',
           password: hash,
         });
@@ -102,7 +102,7 @@ describe('Route authentication', () => {
           success: true,
           user: {
             id: expect.any(Number),
-            firstname: 'John',
+            name: 'John',
             email: 'John@Doe.com',
             city: expect.toBeStringOrNull(),
           },
