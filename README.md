@@ -70,6 +70,7 @@ Code server **201**
     user: {
         id: Number,
         name: String,
+        email: String,
         city: String
     }
     token: {
