@@ -15,7 +15,7 @@
 
 **POST** request to: `http://localhost:8000/api/auth/signUp`
 
-```json
+```
 {
     "name": String,
     "email": String,
@@ -32,7 +32,7 @@
 
 Code server **`201`**
 
-```json
+```
 {
     "success": boolean,
     "user": {
@@ -49,7 +49,7 @@ Code server **`201`**
 
 Code server **`422`**
 
-```json
+```
 {
     "errors": [
         {
@@ -64,7 +64,7 @@ Code server **`422`**
 
 Code server **`401`**
 
-```json
+```
 {
     "success": boolean,
     "message": String
@@ -73,7 +73,7 @@ Code server **`401`**
 
 Code server **`400`**
 
-```json
+```
 {
     "success": boolean,
     "message": String
@@ -84,7 +84,7 @@ Code server **`400`**
 
 **POST** request to: `http://localhost:8000/api/auth/signIn`
 
-```json
+```
 {
     "email": String,
     "password": String,
@@ -97,7 +97,7 @@ Code server **`400`**
 
 Code server **`200`**
 
-```json
+```
 {
     "success": boolean,
     "user": {
@@ -114,7 +114,7 @@ Code server **`200`**
 
 Code server **422**
 
-```json
+```
 {
     "errors": [
         {
@@ -129,7 +129,7 @@ Code server **422**
 
 Code server **401**
 
-```json
+```
 {
     "success": boolean,
     "message": String
