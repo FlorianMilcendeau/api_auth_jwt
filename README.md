@@ -13,20 +13,18 @@
 
 ### Register
 
-**POST** request to: `http://localhost:8000/api/auth/signUp`
+**POST** request to: `http://localhost:8000/api/authenticate/sign-up`
 
 ```
 {
     "name": String,
     "email": String,
-    "password": String,
-    "city": String
+    "password": String
 }
 ```
 
 `firtname`, `email`, `password` is **REQUIRED**
 
-`city` is **OPTIONAL**
 
 **RESPONSE**
 
@@ -37,8 +35,7 @@ Code server **`201`**
     "success": boolean,
     "user": {
         "id": Number,
-        "name": String,
-        "city": String
+        "name": String
     }
     "token": {
         "jwt": String,
@@ -82,7 +79,7 @@ Code server **`400`**
 
 ### Login
 
-**POST** request to: `http://localhost:8000/api/auth/signIn`
+**POST** request to: `http://localhost:8000/api/authenticate/sign-in`
 
 ```
 {
@@ -102,8 +99,7 @@ Code server **`200`**
     "success": boolean,
     "user": {
         "id": Number,
-        "name": String,
-        "city": String
+        "name": String
     }
     "token": {
         "jwt": String,
