@@ -2,40 +2,17 @@ require('dotenv').config();
 const request = require('supertest');
 
 const app = require('../../app');
-const connection = require('../../config/connection');
-const User = require('../../models/User');
-const generatePassword = require('../../utils/password');
 const extention = require('../jest.extends.js');
 
 // custom test extension.
 expect.extend(extention);
 
 describe('Route authentication', () => {
-  // I truncate all initiator table then I create new user.
-  beforeAll((done) => {
-    connection.query(
-      `SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE initiator; SET FOREIGN_KEY_CHECKS = 1`,
-      async (err) => {
-        if (err) {
-          console.error(err);
-        }
-        const hash = await generatePassword('JohnDoe_jwt');
-
-        await User.create({
-          name: 'John',
-          email: 'John@Doe.com',
-          password: hash,
-        });
-
-        done();
-      }
-    );
-  });
 
   /** Fiels no provided. */
-  it('POST /api/auth/signIn - ERROR (field(s) no provided)', (done) => {
+  it('POST /api/authenticate/sign-in - ERROR (field(s) no provided)', (done) => {
     request(app)
-      .post('/api/auth/signIn')
+      .post('/api/authenticate/sign-in')
       .send({})
       .expect(422)
       .expect('Content-Type', /json/)
@@ -53,11 +30,11 @@ describe('Route authentication', () => {
   });
 
   /** Account not found. */
-  it('POST /api/auth/signIn - ERROR (No account)', (done) => {
-    const user = { email: 'john@test.com', password: 'johnDoe_jwt' };
+  it('POST /api/authenticate/sign-in - ERROR (No account)', (done) => {
+    const user = { email: 'john@test.com', password: 'hello world' };
 
     request(app)
-      .post('/api/auth/signIn')
+      .post('/api/authenticate/sign-in')
       .send(user)
       .expect(401)
       .expect('Content-Type', /json/)
@@ -71,11 +48,11 @@ describe('Route authentication', () => {
   });
 
   /** Password incorrect. */
-  it('POST /api/auth/signIn - ERROR (password incorrect)', (done) => {
-    const user = { email: 'John@Doe.com', password: 'johnDoejwt' };
+  it('POST /api/authenticate/sign-in - ERROR (password incorrect)', (done) => {
+    const user = { email: 'John@Doe.com', password: 'hello world' };
 
     request(app)
-      .post('/api/auth/signIn')
+      .post('/api/authenticate/sign-in')
       .send(user)
       .expect(401)
       .expect('Content-Type', /json/)
@@ -89,11 +66,11 @@ describe('Route authentication', () => {
   });
 
   /** User has been connected */
-  it('POST /api/auth/signIn - OK (User has been connected)', (done) => {
+  it('POST /api/authenticate/sign-in - OK (User has been connected)', (done) => {
     const user = { email: 'John@Doe.com', password: 'JohnDoe_jwt' };
 
     request(app)
-      .post('/api/auth/signIn')
+      .post('/api/authenticate/sign-in')
       .send(user)
       .expect(200)
       .expect('Content-Type', /json/)
@@ -104,7 +81,7 @@ describe('Route authentication', () => {
             id: expect.any(Number),
             name: 'John',
             email: 'John@Doe.com',
-            city: expect.toBeStringOrNull(),
+            is_admin: expect.any(Boolean)
           },
           token: {
             jwt: expect.stringMatching(new RegExp(/(Bearer)\s+(\S+)/, 'i')),
@@ -115,6 +92,4 @@ describe('Route authentication', () => {
       })
       .catch((err) => done(err));
   });
-
-  afterAll(() => connection.end());
 });

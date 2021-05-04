@@ -2,39 +2,16 @@ require('dotenv').config();
 const request = require('supertest');
 
 const app = require('../../app');
-const connection = require('../../config/connection');
-const User = require('../../models/User');
-const generatePassword = require('../../utils/password');
 const extention = require('../jest.extends');
 
 // custom test extension.
 expect.extend(extention);
 
 describe('Route authentication', () => {
-  // I truncate all initiator table then I create new user.
-  beforeAll((done) => {
-    connection.query(
-      `SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE initiator; SET FOREIGN_KEY_CHECKS = 1`,
-      async (err) => {
-        if (err) {
-          console.error(err);
-        }
-        const hash = await generatePassword('HelloWorld');
 
-        await User.create({
-          name: 'Hello',
-          email: 'Hello@World.com',
-          password: hash,
-        });
-
-        done();
-      }
-    );
-  });
-
-  it('POST /api/auth/signUp - ERROR (field(s) no provided)', (done) => {
+  it('POST /api/authenticate/sign-up - ERROR (field(s) no provided)', (done) => {
     request(app)
-      .post('/api/auth/signUp')
+      .post('/api/authenticate/sign-up')
       .send({})
       .expect(422)
       .expect('Content-Type', /json/)
@@ -52,7 +29,7 @@ describe('Route authentication', () => {
   });
 
   /** Account already exist. */
-  it('POST /api/auth/signUp - ERROR (Account already exist)', (done) => {
+  it('POST /api/authenticate/sign-up - ERROR (Account already exist)', (done) => {
     const user = {
       name: 'Hello',
       email: 'Hello@World.com',
@@ -60,7 +37,7 @@ describe('Route authentication', () => {
     };
 
     request(app)
-      .post('/api/auth/signUp')
+      .post('/api/authenticate/sign-up')
       .send(user)
       .expect(401)
       .expect('Content-Type', /json/)
@@ -77,7 +54,7 @@ describe('Route authentication', () => {
   });
 
   /** User has been created. */
-  it('POST /api/auth/signUp - OK (User has been created)', (done) => {
+  it('POST /api/authenticate/sign-up - OK (User has been created)', (done) => {
     const user = {
       name: 'Foo',
       email: 'Foo@Bar.com',
@@ -85,7 +62,7 @@ describe('Route authentication', () => {
     };
 
     request(app)
-      .post('/api/auth/signUp')
+      .post('/api/authenticate/sign-up')
       .send(user)
       .expect(201)
       .expect('Content-Type', /json/)
@@ -96,7 +73,7 @@ describe('Route authentication', () => {
             id: expect.any(Number),
             name: 'Foo',
             email: 'Foo@Bar.com',
-            city: expect.toBeStringOrNull(),
+            is_admin: expect.any(Boolean)
           },
           token: {
             jwt: expect.stringMatching(new RegExp(/(Bearer)\s+(\S+)/, 'i')),
@@ -107,6 +84,4 @@ describe('Route authentication', () => {
       })
       .catch((err) => done(err));
   });
-
-  afterAll(() => connection.end());
 });

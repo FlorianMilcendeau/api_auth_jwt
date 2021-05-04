@@ -1,6 +1,6 @@
 node_modules
 .env
-package-lock.json
 
 # PRIVATE KEY
 id_rsa_priv.pem
+id_rsa_pub.pem

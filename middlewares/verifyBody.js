@@ -8,9 +8,8 @@ const verifyBodySingIn = [
 ];
 
 const verifyBodySingUp = [
-  body('name').isLength({ min: 3 }),
-  verifyBodySingIn,
-  body('city').optional(),
+  body('name').isLength({ min: 2 }),
+  ...verifyBodySingIn
 ];
 
 module.exports.verifyBodySingUp = verifyBodySingUp;
