@@ -21,8 +21,9 @@ services:
         build:
             context: .
             dockerfile: Dockerfile.dev
-        environment: 
+        environment:
             DEV_DB_HOST: db-dev
+            CI_DB_HOST: db-dev
         volumes:
             - '.:/usr/src/app:rw'
             - '/usr/src/app/node_modules'

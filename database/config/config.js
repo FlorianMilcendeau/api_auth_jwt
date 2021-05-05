@@ -10,7 +10,7 @@ module.exports = {
         username: process.env.CI_DB_USER,
         password: process.env.CI_DB_PASSWORD,
         database: process.env.CI_DB_NAME,
-        host: '127.0.0.1',
+        host: process.env.CI_DB_HOST,
         dialect: 'mysql',
     },
     production: {
