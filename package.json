@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node -r dotenv/config index",
     "start:dev": "nodemon -r dotenv/config index.js",
-    "lint": "./node_modules/.bin/eslint --ext .js",
+    "lint": "./node_modules/.bin/eslint --ext ./**/*.js",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "prepare": "husky install"
@@ -25,10 +25,11 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
+    "nodemailer": "^6.6.0",
     "sequelize": "^6.6.2"
   },
   "devDependencies": {
-    "eslint": "^7.14.0",
+    "eslint": "^7.26.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-import": "^2.22.1",
