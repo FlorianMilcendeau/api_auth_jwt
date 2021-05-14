@@ -6,9 +6,9 @@ const debugLog = debug('api');
 const PORT = process.env.PORT || 8000;
 
 module.exports = app.listen(PORT, (err) => {
-    if (err) {
-        debugLog(err);
-    } else {
-        debugLog(`Express server listening on ${PORT}`);
-    }
+  if (err) {
+    debugLog(err);
+  } else {
+    debugLog(`Express server listening on ${PORT}`);
+  }
 });

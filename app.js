@@ -20,7 +20,7 @@ app.use('/api', root);
 
 /** Test middleware token */
 app.get('/api/test', verifyToken, (req, res) => {
-    res.status(200).json(req.user);
+  res.status(200).json(req.user);
 });
 
 module.exports = app;

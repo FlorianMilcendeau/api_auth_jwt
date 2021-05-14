@@ -26,7 +26,6 @@ services:
             CI_DB_HOST: db-dev
         volumes:
             - '.:/usr/src/app:rw'
-            - '/usr/src/app/node_modules'
         command: npm run start:dev
         depends_on:
             - 'db-dev'

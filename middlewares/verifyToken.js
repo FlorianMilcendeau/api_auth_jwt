@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
-const { extractBearerToken } = require('../libs/JWT');
+const { extractBearerToken } = require('../libs/jsonWebToken');
 
 const pathToPubKey = path.join(__dirname, '../', 'id_rsa_pub.pem');
 const PUBLIC_KEY = fs.readFileSync(pathToPubKey, 'utf-8');
