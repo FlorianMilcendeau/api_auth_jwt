@@ -1,24 +1,17 @@
 const router = require('express').Router();
-const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const logger = require('debug');
 
-const { verifyBodySingUp, verifyBodySingIn } = require('../middlewares/verifyBody');
 const User = require('../database/models/index').user;
+const validator = require('../middlewares/validator');
 const { generateToken } = require('../libs/jsonWebToken');
 const generatePassword = require('../libs/password');
+const { signInShema, signUpShema } = require('../validation/Authentication');
 
 const log = logger('api:controller:authenticate');
 
 /** Route sign In */
-router.post('/sign-in', verifyBodySingIn, async (req, res) => {
-  const errors = validationResult(req);
-
-  // If there are any errors
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-
+router.post('/sign-in', validator(signInShema), async (req, res) => {
   try {
     const { password, email } = req.body;
     const user = await User.findOne({ where: { email }, raw: true });
@@ -36,7 +29,6 @@ router.post('/sign-in', verifyBodySingIn, async (req, res) => {
       return res.status(401).json({ success: false, message: 'Password incorrect' });
     }
 
-    // Generate and sign jwt.
     const { token, expiresIn } = generateToken(user);
 
     // Connect successfully.
@@ -56,14 +48,7 @@ router.post('/sign-in', verifyBodySingIn, async (req, res) => {
 });
 
 /** Route sign Up */
-router.post('/sign-up', verifyBodySingUp, async (req, res) => {
-  const errors = validationResult(req);
-
-  // If there are any errors
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-
+router.post('/sign-up', validator(signUpShema), async (req, res) => {
   try {
     const { password, ...userInfo } = req.body;
     const user = await User.findOne({ where: { email: userInfo.email }, raw: true });
@@ -75,9 +60,7 @@ router.post('/sign-up', verifyBodySingUp, async (req, res) => {
 
     const hash = await generatePassword(password);
     const resultEntity = await User.create({ password: hash, ...userInfo }, { raw: true });
-    const result = resultEntity.get({
-      plain: true,
-    });
+    const result = resultEntity.get({ plain: true });
 
     // If user is not create.
     if (!result) {
@@ -85,8 +68,6 @@ router.post('/sign-up', verifyBodySingUp, async (req, res) => {
     }
 
     const { password: pwd, ...currentUser } = result;
-
-    // Generate and sign jwt.
     const { token, expiresIn } = generateToken(currentUser);
 
     // User created successfully.

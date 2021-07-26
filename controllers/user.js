@@ -1,17 +1,8 @@
 const router = require('express').Router();
-const { validationResult } = require('express-validator');
-
-const { verifyEmail } = require('../middlewares/verifyBody');
 const User = require('../database/models').user;
 const { sendMail } = require('../service/email');
 
-router.post('/forgot-password', verifyEmail, async (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-
+router.post('/forgot-password', async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ where: { email }, raw: true });
 

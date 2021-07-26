@@ -4,7 +4,7 @@ module.exports = {
       {
         name: 'John',
         email: 'John@Doe.com',
-        password: '$2b$10$rz0Ps/EM1FE9xo9/9A/5pecpbG9wPPXPsfqxBGUUaIV1oBg0CNW2y', // hello world
+        password: '$2b$10$Dka0uBhWV/zEcjcCiFjtAu9VRZ7tkyxPmfrisiQUr3Jvj7jCdGG6W', // 4WB9mx6j
         created_at: new Date(),
       },
     ]);
